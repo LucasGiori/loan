@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  quarkus-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.46.0.0/16"
+          gateway: "172.46.0.1"
