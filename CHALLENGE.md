@@ -10,6 +10,7 @@ A proposta da aplicação que vamos desenvolver em conjunto é disponibilizar a 
     - Regras:
         - Nessa modalidade, o valor máximo do empréstimo é de 25% da renda mensal do cliente baseado na média dos últimos 12 meses.
         - Nessa modalidade, o cliente não pode ter nenhuma restrição no SPC ou SERASA.
+        - Proposta válida por 7 dias.
         - Pode ser disponibilizado para:
             - pensionista
             - aposentado
@@ -26,6 +27,7 @@ A proposta da aplicação que vamos desenvolver em conjunto é disponibilizar a 
     - Nível de risco: baixo
     - Regras:
         - Nessa modalidade, o valor máximo do empréstimo é de 50% do valor do bem dado em garantia.
+        - Proposta válida por 30 dias.
         - Pode ser disponibilizado para:
             - pensionista
             - aposentado
@@ -42,6 +44,7 @@ A proposta da aplicação que vamos desenvolver em conjunto é disponibilizar a 
     - Nível de risco: baixo
     - Regras:
         - Nessa modalidade, o valor máximo do empréstimo é de 30% do salário bruto do cliente.
+        - Proposta válida por 30 dias.
         - Pode ser disponibilizado para:
             - pensionista
             - aposentado
@@ -57,12 +60,13 @@ A proposta da aplicação que vamos desenvolver em conjunto é disponibilizar a 
 ## Utilização da aplicação:
 A aplicação deve receber como entrada essas informações:
 
+### Endpoint: /loansAvailable
 **input:**
 ```json
 {
   "customer": {
     "name": "Erikaya",
-    "cpf": "123.456.789-10",
+    "document": "12345678910",
     "age": 29,
     "location": "BH",
     "profile": "assalariado",
@@ -79,10 +83,11 @@ E deve responder essas informações:
 {
   "customer": {
     "name": "Erikaya",
-    "cpf": "123.456.789-10",
-    "age": 29,
-    "location": "BH",
-    "income": 3000
+    "document": "12345678910",
+    "proposal": {
+      "id': "e53de8ae-3bdc-43d7-9ba0-cd2f4cbfaebe",
+      "valid": "2021-01-01"
+    }
   },
   "loans": [
     {
