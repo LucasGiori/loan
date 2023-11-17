@@ -4,7 +4,15 @@ services:
   quarkus-app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./src:/opt/application/src
+      - ./cache:/opt/application/cache:z
+      - ./gradle:/opt/application/gradle
+      - ./gradlew:/opt/application/gradlew
+      - ./gradle.properties:/opt/application/gradle.properties
+      - ./build.gradle.kts:/opt/application/build.gradle.kts
+      - ./settings.gradle.kts:/opt/application/settings.gradle.kts
     ports:
       - "8080:8080"
     networks:
@@ -16,5 +24,5 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: "172.46.0.0/16"
-          gateway: "172.46.0.1"
+        - subnet: "172.47.0.0/16"
+          gateway: "172.47.0.1"

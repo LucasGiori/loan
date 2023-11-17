@@ -1,0 +1,14 @@
+FROM registry.access.redhat.com/ubi8/openjdk-17:1.17
+
+LABEL author="Lucas Giori Cesconetto" \
+      maintainer="Lucas Giori <lucasgioricesconetto@gmail.com>" \
+      org.label-schema.schema-version="1.0"
+
+ENV LANGUAGE='en_US:en'
+
+EXPOSE 8080
+USER 185
+
+WORKDIR /opt/application
+
+CMD ["./gradlew", "quarkusDev", "-Dquarkus.http.host=0.0.0.0","-Dquarkus.http.port=8080", "--info"]
