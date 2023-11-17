@@ -60,7 +60,6 @@ A proposta da aplicação que vamos desenvolver em conjunto é disponibilizar a 
 ## Utilização da aplicação:
 A aplicação deve receber como entrada essas informações:
 
-### Endpoint: /loansAvailable
 **input:**
 ```json
 {
@@ -83,27 +82,35 @@ E deve responder essas informações:
 {
   "customer": {
     "name": "Erikaya",
-    "document": "12345678910",
-    "proposal": {
-      "id': "e53de8ae-3bdc-43d7-9ba0-cd2f4cbfaebe",
-      "valid": "2021-01-01"
-    }
+    "document": "12345678910"
   },
   "loans": [
     {
       "type": "personal",
       "value": 750,
-      "tax": 1.5
+      "tax": 1.5,
+      "proposal": {
+        "id': "e53de8ae-3bdc-43d7-9ba0-cd2f4cbfaebe",
+        "valid": "2021-01-07"
+      }
     },
     {
       "type": "guaranteed",
       "value": 1500,
-      "tax": 1.2
+      "tax": 1.2,
+      "proposal": {
+        "id': "14490692-4cde-4496-b6ee-11bfc5901b13",
+        "valid": "2021-01-30"
+      }
     },
     {
       "type": "consignment",
       "value": 900,
-      "tax": 1.4
+      "tax": 1.4,
+      "proposal": {
+        "id': "fa52f689-adda-4883-88ea-81a0096e1b44",
+        "valid": "2021-01-30"
+      }
     }
   ]
 }
