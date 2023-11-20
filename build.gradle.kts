@@ -15,12 +15,15 @@ val quarkusPlatformVersion: String by project
 
 dependencies {
     implementation(enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}"))
-    implementation("io.quarkus:quarkus-resteasy")
-    implementation("io.quarkus:quarkus-resteasy-jsonb")
-    implementation("io.quarkus:quarkus-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("io.quarkus:quarkus-arc")
+    implementation("io.quarkus:quarkus-kotlin")
+    implementation("io.quarkus:quarkus-resteasy-jackson")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+
     testImplementation("io.quarkus:quarkus-junit5")
+
+
 }
 
 group = "org.loan"
