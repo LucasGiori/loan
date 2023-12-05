@@ -1,2 +1,3 @@
+
 build:
-	@./gradlew build
+	"./gradlew build"
