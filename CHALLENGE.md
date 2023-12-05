@@ -58,9 +58,13 @@ A proposta da aplicação que vamos desenvolver em conjunto é disponibilizar a 
         - 0.9% a.m. para clientes com renda mensal acima de R$ 10.000,00
 
 ## Utilização da aplicação:
-A aplicação deve receber como entrada essas informações:
 
-**input:**
+### Loan Init:
+**Path**
+```json
+POST /loans/initialize
+```
+**Payload:**
 ```json
 {
   "customer": {
@@ -76,8 +80,28 @@ A aplicação deve receber como entrada essas informações:
 
 E deve responder essas informações:
 
-**output:**
+**Response:**
+```text
+Status: 201 Created
+```
+```json
+{
+  "id": "e53de8ae-3bdc-43d7-9ba0-cd2f4cbfaebe"
+}
+```
 
+## Loan Available
+**Path:**
+```json
+GET loans/{id}/available
+```
+
+E deve responder essas informações:
+
+**Response:**
+```text
+Status: 200 Ok
+```
 ```json
 {
   "customer": {
