@@ -6,6 +6,9 @@ This repository was created to learn the Kotlin language by implementing the cha
 ## Challenge
 [CHALLENGE](CHALLENGE.md)
 
+## Event Storming
+![EVENT STORMING](event-storming.png)
+
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
