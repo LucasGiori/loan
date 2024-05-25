@@ -39,3 +39,4 @@ nb-configuration.xml
 /.quarkus/cli/plugins/
 
 /cache
+/mysql_data
