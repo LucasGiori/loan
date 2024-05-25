@@ -10,6 +10,6 @@ data class InitializedLoan(
     override val version: Version,
     override val identity: LoanId
 ) : Loan {
-    fun init() =
-        LoanInitializedEvent(customer = customer, loanId = identity, version = version.next())
+    // Aqui vai ser o evento LoanRequestedEvent
+    fun request() = LoanInitializedEvent(customer = customer, loanId = identity, version = version.next())
 }

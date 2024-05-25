@@ -1,10 +1,7 @@
 package application.domain.models.aggregate
 
 import application.domain.events.LoanInitializedEvent
-import application.domain.models.AggregateRoot
-import application.domain.models.Customer
-import application.domain.models.LoanId
-import application.domain.models.Version
+import application.domain.models.*
 
 sealed interface Loan: AggregateRoot {
     override val identity: LoanId
@@ -16,4 +13,9 @@ sealed interface Loan: AggregateRoot {
             version = Version.INITIAL
         )
     }
+
+    val status: Status
+        get() = when (this) {
+            is InitializedLoan -> Status.INITIALIZED
+        }
 }

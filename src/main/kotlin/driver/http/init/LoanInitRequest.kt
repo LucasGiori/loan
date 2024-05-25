@@ -1,4 +1,4 @@
-package driver.http.loan
+package driver.http.init
 
 import application.commands.LoanInitCommand
 import application.domain.models.*
