@@ -11,7 +11,6 @@ import kotlinx.serialization.encoding.Encoder
 import java.math.BigDecimal
 
 @Serializable
-
 data class Income(
     @Serializable(with = BigDecimalSerializer::class)
     @Contextual
