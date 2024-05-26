@@ -1,5 +1,8 @@
 package application.domain.models
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Customer(
     val name: Name,
     val document: Document,
@@ -9,10 +12,10 @@ data class Customer(
     val income: Income
 ) : ValueObject
 
-fun Customer.toJson(): String {
-    val locationJson = location.let { "\"location\": \"$it\"" }
-    val profileJson = profile.let { "\"profile\": \"${it.value}\"" }
-    val incomeJson = income.let { "\"income\": ${it.value}" }
-
-    return "{ \"name\": \"${name.value}\", \"document\": \"${document.value}\", \"age\": ${age.value}, $locationJson, $profileJson, $incomeJson }"
-}
+//fun Customer.toJson(): String {
+//    val locationJson = location.let { "\"location\": \"$it\"" }
+//    val profileJson = profile.let { "\"profile\": \"${it.value}\"" }
+//    val incomeJson = income.let { "\"income\": ${it.value}" }
+//
+//    return "{ \"name\": \"${name.value}\", \"document\": \"${document.value}\", \"age\": ${age.value}, $locationJson, $profileJson, $incomeJson }"
+//}

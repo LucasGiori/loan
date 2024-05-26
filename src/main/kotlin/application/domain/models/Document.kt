@@ -1,5 +1,8 @@
 package application.domain.models
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Document(val value: String) : ValueObject {
     init {
         require(value.isNotBlank()) { "Document cannot be blank" }
