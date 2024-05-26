@@ -39,7 +39,7 @@ class MysqlLoanRepository @Inject constructor(
             loanDAO.push(loan = loanDto, connection = connection)
 
             val loanDtoResult = loanDAO.pull(loanId = event.loanId.value.toString(), connection = connection)
-            logger.info("LINDA", Json.encodeToString(event))
+
             val outboxEventDto = OutboxDto(
                 type = event.javaClass.simpleName.removeSuffix("Event"),
                 payload = Json.encodeToString(event),
@@ -49,8 +49,6 @@ class MysqlLoanRepository @Inject constructor(
 
             outboxEventDAO.push(outboxDto = outboxEventDto, connection = connection)
         }
-
-
     }
 
     override suspend fun push(event: LoanEvent) {
