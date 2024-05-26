@@ -5,6 +5,7 @@ import application.domain.models.aggregate.Loan
 import application.ports.inbound.LoanInitPort
 import application.ports.outbound.LoanRepositoryPort
 import jakarta.enterprise.context.ApplicationScoped
+import kotlinx.coroutines.runBlocking
 
 @ApplicationScoped
 data class LoanInitHandler(private val repository: LoanRepositoryPort) :
@@ -14,7 +15,7 @@ data class LoanInitHandler(private val repository: LoanRepositoryPort) :
         Loan
             .init(command.id, command.customer)
             .also { event ->
-                repository.push(event)
+                runBlocking { repository.push(event) }
             }
     }
 

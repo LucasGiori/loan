@@ -1,5 +1,8 @@
 package application.domain.models
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Version(val value: Int) : ValueObject {
     companion object {
         val INITIAL = Version(1)

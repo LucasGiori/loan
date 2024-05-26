@@ -1,5 +1,8 @@
 package application.domain.models
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Name(val value: String): ValueObject {
     init {
         require(value.isNotBlank()) { "Name cannot be blank" }

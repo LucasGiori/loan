@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
+      network: host
+    container_name: loan-app
     volumes:
       - ./src:/opt/application/src
       - ./cache:/opt/application/cache:z
@@ -17,6 +19,22 @@ services:
       - "8080:8080"
     env_file:
       - ./environment/local.env
+    networks:
+      - app
+
+  mysql:
+    image: mysql:latest
+    container_name: loan-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: dev
+      MYSQL_DATABASE: loan
+      MYSQL_USER: loan
+      MYSQL_PASSWORD: loan
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+      - ./create_table.sql:/docker-entrypoint-initdb.d/create_table.sql
     networks:
       - app
 

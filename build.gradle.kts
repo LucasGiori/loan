@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.9.10"
     kotlin("plugin.allopen") version "1.9.10"
+    kotlin("plugin.serialization") version "1.9.0"
     id("io.quarkus")
 }
 
@@ -20,6 +21,10 @@ dependencies {
     implementation("io.quarkus:quarkus-resteasy-jackson")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
+    implementation("io.quarkus:quarkus-reactive-mysql-client")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+    implementation("io.vertx:vertx-lang-kotlin-coroutines")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json")
 
     testImplementation("io.quarkus:quarkus-junit5")
 
