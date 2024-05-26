@@ -11,11 +11,3 @@ data class Customer(
     val profile: Profile,
     val income: Income
 ) : ValueObject
-
-//fun Customer.toJson(): String {
-//    val locationJson = location.let { "\"location\": \"$it\"" }
-//    val profileJson = profile.let { "\"profile\": \"${it.value}\"" }
-//    val incomeJson = income.let { "\"income\": ${it.value}" }
-//
-//    return "{ \"name\": \"${name.value}\", \"document\": \"${document.value}\", \"age\": ${age.value}, $locationJson, $profileJson, $incomeJson }"
-//}
