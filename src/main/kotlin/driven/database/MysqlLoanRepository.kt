@@ -6,7 +6,6 @@ import application.domain.models.LoanId
 import application.domain.models.Status
 import application.ports.outbound.LoanDAOPort
 import application.ports.outbound.LoanRepositoryPort
-import application.ports.outbound.LoggerPort
 import application.ports.outbound.OutboxEventDAOPort
 import io.vertx.mysqlclient.MySQLPool
 import jakarta.inject.Inject
