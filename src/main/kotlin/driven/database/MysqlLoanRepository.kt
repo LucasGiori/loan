@@ -20,7 +20,6 @@ class MysqlLoanRepository @Inject constructor(
     private val pool: MySQLPool,
     private val loanDAO: LoanDAOPort,
     private val outboxEventDAO: OutboxEventDAOPort,
-    private val logger: LoggerPort,
 ): LoanRepositoryPort {
 
     override suspend fun pull(loanId: LoanId): LoanEvent? {
