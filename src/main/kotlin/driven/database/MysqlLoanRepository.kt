@@ -4,6 +4,7 @@ import application.domain.events.LoanEvent
 import application.domain.events.LoanInitializedEvent
 import application.domain.models.LoanId
 import application.domain.models.Status
+import application.domain.models.aggregate.Loan
 import application.ports.outbound.LoanDAOPort
 import application.ports.outbound.LoanRepositoryPort
 import application.ports.outbound.OutboxEventDAOPort
@@ -11,6 +12,7 @@ import io.vertx.mysqlclient.MySQLPool
 import jakarta.inject.Inject
 import jakarta.inject.Singleton
 import driven.database.extension.withTransactionCustom
+import io.vertx.kotlin.coroutines.await
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -21,8 +23,10 @@ class MysqlLoanRepository @Inject constructor(
     private val outboxEventDAO: OutboxEventDAOPort,
 ): LoanRepositoryPort {
 
-    override suspend fun pull(loanId: LoanId): LoanEvent? {
-        TODO("Not yet implemented")
+    override suspend fun pull(loanId: LoanId): Loan? {
+        val loanDto = loanDAO.pull(loanId.value.toString(), pool.connection.await())
+
+        return loanDto?.let { AggregateRecoveryFactory.from(it) }
     }
 
     override suspend fun push(event: LoanInitializedEvent) {

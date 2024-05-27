@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 @Serializable
 data class LoanDto (
     val loanId: String,
-    val customer: String, //json
+    val customer: String,
     val status: String,
     val version: Int,
     @Serializable(with = LocalDateTimeSerializer::class)
