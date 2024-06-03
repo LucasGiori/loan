@@ -1,8 +1,9 @@
 package application.domain.models.aggregate
 
-import application.domain.events.LoanRequestedEvent
+import application.domain.events.LoanProposalsIssuedEvent
 import application.domain.models.Customer
 import application.domain.models.LoanId
+import application.domain.models.Proposals
 import application.domain.models.Version
 
 data class InitializedLoan(
@@ -10,5 +11,11 @@ data class InitializedLoan(
     override val version: Version,
     override val identity: LoanId
 ) : Loan {
-    fun request() = LoanRequestedEvent(loanId = identity, version = version.next())
+    override fun issueProposals(proposals: Proposals): LoanProposalsIssuedEvent {
+        return LoanProposalsIssuedEvent(
+            loanId = identity,
+            version = version.next(),
+            proposals = proposals.copy()
+        )
+    }
 }
