@@ -1,6 +1,9 @@
 package application.domain.models.aggregate
 
 import application.domain.events.LoanInitializedEvent
+import application.domain.events.LoanProposalsIssuedEvent
+import application.domain.events.LoanRequestedEvent
+import application.domain.exceptions.IllegalStateTransitionException
 import application.domain.models.*
 
 sealed interface Loan: AggregateRoot {
@@ -17,5 +20,10 @@ sealed interface Loan: AggregateRoot {
     val status: Status
         get() = when (this) {
             is InitializedLoan -> Status.INITIALIZED
+            is ProposalsIssuedLoan -> Status.AVAILABLE
         }
+
+    fun issueProposals(proposals: Proposals): LoanProposalsIssuedEvent = throw IllegalStateTransitionException(status, Status.AVAILABLE)
+
+    fun request(): LoanRequestedEvent = throw IllegalStateTransitionException(status, Status.REQUESTED)
 }

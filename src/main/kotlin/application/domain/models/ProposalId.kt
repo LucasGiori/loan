@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import starter.serializer.UUIDv4Serializer
 
 @Serializable
-data class LoanId(
+data class ProposalId(
     @Serializable(with = UUIDv4Serializer::class)
     @Contextual
     val value: UUIDv4

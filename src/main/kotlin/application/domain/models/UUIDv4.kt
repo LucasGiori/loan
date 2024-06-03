@@ -13,5 +13,7 @@ data class UUIDv4(val value: String) {
         private const val VERSION: Int = 4
     }
 
-    override fun toString() = value
+    override fun toString(): String {
+        return value.toString()
+    }
 }

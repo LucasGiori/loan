@@ -6,7 +6,6 @@ import application.domain.models.LoanId
 import application.domain.models.aggregate.Loan
 
 interface LoanRepositoryPort {
-    /** @todo LoanEvent? */
     suspend fun pull(loanId: LoanId): Loan?
 
     suspend fun push(event: LoanInitializedEvent)

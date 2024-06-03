@@ -10,6 +10,7 @@ class AggregateRecoveryFactory {
             val status = Status.valueOf(value = loanDto.status)
             return when(status) {
                 Status.INITIALIZED -> initializedLoan(loanDto)
+                Status.AVAILABLE -> TODO()
                 Status.REQUESTED -> TODO()
                 Status.ABANDONED -> TODO()
                 Status.COMPLETED -> TODO()

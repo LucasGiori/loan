@@ -3,6 +3,10 @@ CREATE TABLE IF NOT EXISTS loan (
     customer JSON NOT NULL,
     status VARCHAR(30) NOT NULL,
     version INT NOT NULL,
+    proposals JSON,
+    type VARCHAR(20),
+    amount FLOAT,
+    tax FLOAT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
