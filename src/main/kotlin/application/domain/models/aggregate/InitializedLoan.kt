@@ -5,7 +5,11 @@ import application.domain.models.Customer
 import application.domain.models.LoanId
 import application.domain.models.Proposals
 import application.domain.models.Version
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
+@SerialName("InitializedLoan")
 data class InitializedLoan(
     val customer: Customer,
     override val version: Version,

@@ -1,7 +1,8 @@
 package query.loan.available
 
 data class GetLoanAvailableResult(
-    val loanId: String,
+    val id: String,
     val status: String,
+    val proposals: Any,
     val version: Int
 )

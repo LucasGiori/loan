@@ -13,7 +13,7 @@ data class OutboxDto(
     @Contextual
     val datOccurred: Instant = Instant.now(),
     val codOutboxEvent: String = UUID.randomUUID().toString(),
-    val desAggregateType: String = "Loan",
+    val desAggregateType: String,
     val type: String?,
     val payload: String?, //json
     val identity: String?,

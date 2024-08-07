@@ -17,10 +17,11 @@ services:
       - ./settings.gradle.kts:/opt/application/settings.gradle.kts
     ports:
       - "8080:8080"
+      - "5005:5005"
     env_file:
       - ./environment/local.env
     networks:
-      - app
+      - loan_app
 
   mysql:
     image: mysql:latest
@@ -36,13 +37,9 @@ services:
       - ./mysql_data:/var/lib/mysql
       - ./create_table.sql:/docker-entrypoint-initdb.d/create_table.sql
     networks:
-      - app
+      - loan_app
 
 networks:
-  app:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: "172.47.0.0/16"
-          gateway: "172.47.0.1"
+  loan_app:
+    external:
+      name: loan_app

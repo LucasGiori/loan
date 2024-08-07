@@ -2,8 +2,9 @@ package application.domain.events
 
 import application.domain.models.LoanId
 import application.domain.models.Version
+import kotlinx.serialization.Serializable
 
-/** Porque usar sealed interface? */
+@Serializable
 sealed interface LoanEvent : DomainEvent {
     val version: Version
     val loanId: LoanId
