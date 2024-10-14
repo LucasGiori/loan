@@ -26,7 +26,7 @@ sealed interface Loan: AggregateRoot {
             else -> throw RuntimeException("Event without mapped status")
         }
 
-    fun issueProposals(proposals: Proposals): LoanProposalsIssuedEvent = throw IllegalStateTransitionException(status, Status.AVAILABLE)
+    fun issueProposals(): LoanProposalsIssuedEvent = throw IllegalStateTransitionException(status, Status.AVAILABLE)
 
     fun request(): LoanRequestedEvent = throw IllegalStateTransitionException(status, Status.REQUESTED)
 }
