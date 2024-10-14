@@ -8,7 +8,10 @@ enum class Profile(val value: String) {
     PENSIONER("PENSIONER");
 
     companion object {
-        fun from (value: String) = entries
-            .firstOrNull { it.value == value } ?: throw IllegalArgumentException("${Profile::class.java.simpleName} enum does not contains $value.")
+        fun from (value: String): Profile {
+            return entries
+                .firstOrNull { it.value == value }
+                ?: throw IllegalArgumentException("${Profile::class.java.simpleName} enum does not contains $value.")
+        }
     }
 }

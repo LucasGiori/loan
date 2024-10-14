@@ -11,7 +11,14 @@ data class UUIDv4(val value: String) {
 
     companion object {
         private const val VERSION: Int = 4
+
+        fun randomUUID(): UUIDv4
+        {
+            return UUIDv4(UUID.randomUUID().toString())
+        }
     }
 
-    override fun toString() = value
+    override fun toString(): String {
+        return value.toString()
+    }
 }
