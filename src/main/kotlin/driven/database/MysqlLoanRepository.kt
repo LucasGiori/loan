@@ -2,6 +2,7 @@ package driven.database
 
 import application.domain.events.LoanInitializedEvent
 import application.domain.events.LoanProposalsIssuedEvent
+import application.domain.events.LoanRequestedEvent
 import application.domain.models.LoanId
 import application.domain.models.Proposals
 import application.domain.models.Status
@@ -91,6 +92,39 @@ class MysqlLoanRepository @Inject constructor(
     }
 
     override suspend fun push(event: LoanProposalsIssuedEvent) {
+        val oldLoan = findByVersion(event.loanId, event.version.previous())
+
+        oldLoan?.let {
+            pool.withTransactionCustom { connection ->
+                val params = Tuple.of(
+                    event.status.toString(),
+                    event.version.value,
+                    Json.encodeToString<Proposals>(event.proposals),
+                    event.loanId.value.toString(),
+                    event.version.previous().value
+                )
+
+                connection.preparedQuery(UPDATE_AGGREGATE)
+                    .execute(params)
+                    .await()
+                    .requireRowCountGreaterThan(threshold = 0)
+
+                val updatedLoan = pull(loanId = event.loanId, connection = connection)
+
+                val outboxEventDto = OutboxDto(
+                    type = event.javaClass.simpleName.removeSuffix("Event"),
+                    payload = Json.encodeToString(event),
+                    identity = event.loanId.value.toString(),
+                    desAggregateType = AGGREGATE_TYPE,
+                    snapshot = Json.encodeToString(updatedLoan)
+                )
+
+                outboxEventDAO.push(outboxDto = outboxEventDto, connection = connection)
+            }
+        } ?: throw RuntimeException()
+    }
+
+    override suspend fun push(event: LoanRequestedEvent) {
         val oldLoan = findByVersion(event.loanId, event.version.previous())
 
         oldLoan?.let {

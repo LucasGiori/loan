@@ -23,10 +23,11 @@ sealed interface Loan: AggregateRoot {
         get() = when (this) {
             is InitializedLoan -> Status.INITIALIZED
             is ProposalsIssuedLoan -> Status.AVAILABLE
+            is RequestedLoan -> Status.REQUESTED
             else -> throw RuntimeException("Event without mapped status")
         }
 
     fun issueProposals(): LoanProposalsIssuedEvent = throw IllegalStateTransitionException(status, Status.AVAILABLE)
 
-    fun request(): LoanRequestedEvent = throw IllegalStateTransitionException(status, Status.REQUESTED)
+    fun request(proposalId: ProposalId): LoanRequestedEvent = throw IllegalStateTransitionException(status, Status.REQUESTED)
 }

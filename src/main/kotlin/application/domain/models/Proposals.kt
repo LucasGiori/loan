@@ -12,6 +12,13 @@ data class Proposals(private val proposals: MutableList<Proposal> = mutableListO
         return proposals.find { it.status == status }
     }
 
+    fun update(proposalId: ProposalId, update: (Proposal) -> Proposal) {
+        val index = proposals.indexOfFirst { it.proposalId == proposalId }
+        if (index != -1) {
+            proposals[index] = update(proposals[index])
+        }
+    }
+
     override fun iterator(): Iterator<Proposal> {
         return proposals.iterator()
     }

@@ -16,7 +16,7 @@ data class Tax(
     }
 
     companion object {
-        private val MIN_VALUE = BigDecimal.valueOf(0.0)
+        private val MIN_VALUE = BigDecimal.ZERO
 
         fun from(value: Double) = Tax(BigDecimal.valueOf(value))
     }

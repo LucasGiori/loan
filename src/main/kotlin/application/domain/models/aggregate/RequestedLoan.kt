@@ -1,4 +1,4 @@
-package application.domain.events
+package application.domain.models.aggregate
 
 import application.domain.models.LoanId
 import application.domain.models.Proposals
@@ -7,9 +7,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-@SerialName("LoanRequestedEvent")
-data class LoanRequestedEvent(
-    override val loanId: LoanId,
+@SerialName("RequestedLoan")
+data class RequestedLoan(
     override val version: Version,
+    override val identity: LoanId,
     val proposals: Proposals
-): LoanEvent
+) : Loan {
+}
