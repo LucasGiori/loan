@@ -24,3 +24,19 @@ The application can be packaged using:
 ```shell script
 make build 
 ```
+
+
+cd sh ./kafka-connect/source/send-kafka-connect-config.sh
+
+Pegar os connectores disponíveis
+curl -X GET http://localhost:8083/connectors
+
+Verificar o status de um connector:
+curl -X GET http://localhost:8083/connectors/jdbc-source-connector/status
+
+Deletar o connector
+curl -X DELETE http://localhost:8083/connectors/jdbc-source-connector
+
+/connector-plugins/{connectorType}/config/validate
+
+kafka-console-consumer --bootstrap-server kafka:9092 --topic outbox_event_outbox_event --from-beginning

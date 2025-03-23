@@ -1,0 +1,19 @@
+{
+  "name": "jdbc-source-connector",
+  "config": {
+    "mode": "timestamp",
+    "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+    "tasks.max": "1",
+    "connection.url": "jdbc:mysql://mysql:3306/loan",
+    "connection.user": "loan",
+    "connection.password": "loan",
+    "table.whitelist": "outbox_event",
+    "timestamp.column.name": "dat_occurred",
+    "key.column": "cod_outbox_event",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter.schemas.enable": "false",
+    "topic.prefix": "outbox_event_",
+    "poll.interval.ms": "5000"
+  }
+}

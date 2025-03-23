@@ -18,6 +18,6 @@ CREATE TABLE IF NOT EXISTS outbox_event (
     type VARCHAR(50) NOT NULL,
     revision INT NOT NULL,
     payload JSON NOT NULL,
-    dat_occurred TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    dat_occurred TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     snapshot JSON NOT NULL
 );
