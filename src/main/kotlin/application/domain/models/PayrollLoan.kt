@@ -16,7 +16,7 @@ class PayrollLoan : LoanRule {
             income.value <= BigDecimal(2000) -> BigDecimal(1.4)
             income.value <= BigDecimal(5000) -> BigDecimal(1.3)
             income.value <= BigDecimal(10000) -> BigDecimal(1.2)
-            else -> BigDecimal(1.1)
+            else -> BigDecimal(0.9)
         }
 
         return Tax(value=taxRateValue)
