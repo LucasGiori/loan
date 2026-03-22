@@ -5,6 +5,7 @@ import application.domain.events.LoanProposalsIssuedEvent
 import application.domain.events.LoanRequestedEvent
 import application.domain.exceptions.IllegalStateTransitionException
 import application.domain.models.*
+import application.domain.models.ProposalId
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -29,5 +30,5 @@ sealed interface Loan: AggregateRoot {
 
     fun issueProposals(): LoanProposalsIssuedEvent = throw IllegalStateTransitionException(status, Status.AVAILABLE)
 
-    fun request(): LoanRequestedEvent = throw IllegalStateTransitionException(status, Status.REQUESTED)
+    fun request(proposalId: ProposalId): LoanRequestedEvent = throw IllegalStateTransitionException(status, Status.REQUESTED)
 }

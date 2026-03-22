@@ -14,7 +14,7 @@ class LoanRequestHandler(private val repository: LoanRepositoryPort) :
         runBlocking {
             repository
                 .pull(command.id)
-                ?.request()
+                ?.request(command.proposalId)
                 ?.let { event -> repository.push(event) }
         }
     }

@@ -3,6 +3,7 @@ package driven.database
 import application.domain.events.LoanInitializedEvent
 import application.domain.events.LoanProposalsIssuedEvent
 import application.domain.events.LoanRequestedEvent
+import application.domain.models.aggregate.ProposalsIssuedLoan
 import application.domain.models.LoanId
 import application.domain.models.Proposals
 import application.domain.models.Status
@@ -15,7 +16,6 @@ import driven.database.dml.Loan.Companion.FIND_BY_ID
 import driven.database.dml.Loan.Companion.FIND_BY_VERSION
 import driven.database.dml.Loan.Companion.INSERT_INITIAL_AGGREGATE
 import driven.database.dml.Loan.Companion.UPDATE_AGGREGATE
-import driven.database.dml.Loan.Companion.UPDATE_STATUS_ONLY
 import driven.database.extension.events.status
 import driven.database.extension.requireRowCountGreaterThan
 import io.vertx.mysqlclient.MySQLPool
@@ -126,35 +126,37 @@ class MysqlLoanRepository @Inject constructor(
     }
 
     override suspend fun push(event: LoanRequestedEvent) {
-        val oldLoan = findByVersion(event.loanId, event.version.previous())
+        val oldLoan = findByVersion(event.loanId, event.version.previous()) as? ProposalsIssuedLoan
+            ?: throw RuntimeException()
 
-        oldLoan?.let {
-            pool.withTransactionCustom { connection ->
-                val params = Tuple.of(
-                    event.status.toString(),
-                    event.version.value,
-                    event.loanId.value.toString(),
-                    event.version.previous().value
-                )
+        pool.withTransactionCustom { connection ->
+            val updatedProposals = oldLoan.proposals.accept(event.proposalId)
 
-                connection.preparedQuery(UPDATE_STATUS_ONLY)
-                    .execute(params)
-                    .await()
-                    .requireRowCountGreaterThan(threshold = 0)
+            val params = Tuple.of(
+                event.status.toString(),
+                event.version.value,
+                Json.encodeToString<Proposals>(updatedProposals),
+                event.loanId.value.toString(),
+                event.version.previous().value
+            )
 
-                val updatedLoan = pull(loanId = event.loanId, connection = connection)
+            connection.preparedQuery(UPDATE_AGGREGATE)
+                .execute(params)
+                .await()
+                .requireRowCountGreaterThan(threshold = 0)
 
-                val outboxEventDto = OutboxDto(
-                    type = event.javaClass.simpleName.removeSuffix("Event"),
-                    payload = Json.encodeToString(event),
-                    identity = event.loanId.value.toString(),
-                    desAggregateType = AGGREGATE_TYPE,
-                    snapshot = Json.encodeToString(updatedLoan)
-                )
+            val updatedLoan = pull(loanId = event.loanId, connection = connection)
 
-                outboxEventDAO.push(outboxDto = outboxEventDto, connection = connection)
-            }
-        } ?: throw RuntimeException()
+            val outboxEventDto = OutboxDto(
+                type = event.javaClass.simpleName.removeSuffix("Event"),
+                payload = Json.encodeToString(event),
+                identity = event.loanId.value.toString(),
+                desAggregateType = AGGREGATE_TYPE,
+                snapshot = Json.encodeToString(updatedLoan)
+            )
+
+            outboxEventDAO.push(outboxDto = outboxEventDto, connection = connection)
+        }
     }
 
     private suspend fun findByVersion(loanId: LoanId, version: Version): Loan? {

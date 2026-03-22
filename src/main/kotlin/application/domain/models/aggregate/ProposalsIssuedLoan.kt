@@ -1,7 +1,9 @@
 package application.domain.models.aggregate
 
 import application.domain.events.LoanRequestedEvent
+import application.domain.exceptions.UnknownProposalException
 import application.domain.models.LoanId
+import application.domain.models.ProposalId
 import application.domain.models.Proposals
 import application.domain.models.Version
 import kotlinx.serialization.SerialName
@@ -14,7 +16,8 @@ data class ProposalsIssuedLoan(
     override val identity: LoanId,
     val proposals: Proposals
 ) : Loan {
-    override fun request(): LoanRequestedEvent {
-        return LoanRequestedEvent(loanId = identity, version = version.next())
+    override fun request(proposalId: ProposalId): LoanRequestedEvent {
+        proposals.getById(proposalId) ?: throw UnknownProposalException(proposalId)
+        return LoanRequestedEvent(loanId = identity, version = version.next(), proposalId = proposalId)
     }
 }
