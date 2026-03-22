@@ -21,7 +21,6 @@ data class ProposalsIssuedLoan(
         return LoanRequestedEvent(
             loanId = identity,
             version = version.next(),
-            proposalId = proposalId,
             proposals = proposals.accept(proposalId)
         )
     }
