@@ -24,7 +24,7 @@ services:
       - loan_app
 
   mysql:
-    image: mysql:latest
+    image: mysql:8.4.8
     container_name: loan-mysql
     ports:
       - "3306:3306"
@@ -41,5 +41,5 @@ services:
 
 networks:
   loan_app:
-    external:
-      name: loan_app
+    external: true
+    name: loan_app
