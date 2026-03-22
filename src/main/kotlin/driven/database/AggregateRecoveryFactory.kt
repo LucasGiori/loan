@@ -4,6 +4,7 @@ import application.domain.models.Status
 import application.domain.models.aggregate.Loan
 import driven.database.extension.models.aggregate.initializedLoan
 import driven.database.extension.models.aggregate.proposalsIssuedLoan
+import driven.database.extension.models.aggregate.requestedLoan
 import io.vertx.core.json.JsonObject
 
 class AggregateRecoveryFactory {
@@ -13,7 +14,7 @@ class AggregateRecoveryFactory {
             return when(status) {
                 Status.INITIALIZED -> initializedLoan(loan)
                 Status.AVAILABLE -> proposalsIssuedLoan(loan)
-                Status.REQUESTED -> TODO()
+                Status.REQUESTED -> requestedLoan(loan)
                 Status.ABANDONED -> TODO()
                 Status.COMPLETED -> TODO()
                 Status.CANCELED -> TODO()

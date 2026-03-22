@@ -23,6 +23,7 @@ sealed interface Loan: AggregateRoot {
         get() = when (this) {
             is InitializedLoan -> Status.INITIALIZED
             is ProposalsIssuedLoan -> Status.AVAILABLE
+            is RequestedLoan -> Status.REQUESTED
             else -> throw RuntimeException("Event without mapped status")
         }
 
