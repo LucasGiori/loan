@@ -3,7 +3,6 @@ package driven.database
 import application.domain.events.LoanInitializedEvent
 import application.domain.events.LoanProposalsIssuedEvent
 import application.domain.events.LoanRequestedEvent
-import application.domain.models.aggregate.ProposalsIssuedLoan
 import application.domain.models.LoanId
 import application.domain.models.Proposals
 import application.domain.models.Status
@@ -126,16 +125,13 @@ class MysqlLoanRepository @Inject constructor(
     }
 
     override suspend fun push(event: LoanRequestedEvent) {
-        val oldLoan = findByVersion(event.loanId, event.version.previous()) as? ProposalsIssuedLoan
-            ?: throw RuntimeException()
+        findByVersion(event.loanId, event.version.previous()) ?: throw RuntimeException()
 
         pool.withTransactionCustom { connection ->
-            val updatedProposals = oldLoan.proposals.accept(event.proposalId)
-
             val params = Tuple.of(
                 event.status.toString(),
                 event.version.value,
-                Json.encodeToString<Proposals>(updatedProposals),
+                Json.encodeToString<Proposals>(event.proposals),
                 event.loanId.value.toString(),
                 event.version.previous().value
             )

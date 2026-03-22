@@ -18,6 +18,11 @@ data class ProposalsIssuedLoan(
 ) : Loan {
     override fun request(proposalId: ProposalId): LoanRequestedEvent {
         proposals.getById(proposalId) ?: throw UnknownProposalException(proposalId)
-        return LoanRequestedEvent(loanId = identity, version = version.next(), proposalId = proposalId)
+        return LoanRequestedEvent(
+            loanId = identity,
+            version = version.next(),
+            proposalId = proposalId,
+            proposals = proposals.accept(proposalId)
+        )
     }
 }
