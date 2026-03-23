@@ -1,5 +1,7 @@
 package application.ports.outbound
 
+import application.domain.events.LoanApprovedEvent
+import application.domain.events.LoanDeclinedEvent
 import application.domain.events.LoanInitializedEvent
 import application.domain.events.LoanProposalsIssuedEvent
 import application.domain.events.LoanRequestedEvent
@@ -14,4 +16,8 @@ interface LoanRepositoryPort {
     suspend fun push(event: LoanProposalsIssuedEvent)
 
     suspend fun push(event: LoanRequestedEvent)
+
+    suspend fun push(event: LoanApprovedEvent)
+
+    suspend fun push(event: LoanDeclinedEvent)
 }

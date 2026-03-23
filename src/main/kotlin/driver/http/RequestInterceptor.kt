@@ -20,7 +20,7 @@ class RequestInterceptor @Inject constructor(
         requestStream?.use { it.copyTo(buffer) }
         val requestData = buffer.toByteArray()
 
-        if (request?.method == "POST") {
+        if (request?.method == "POST" && requestData.isNotEmpty()) {
             val data = mapper.readValue(requestData, ObjectNode::class.java)
 
             log.info(
