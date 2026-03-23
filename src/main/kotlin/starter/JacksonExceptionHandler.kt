@@ -9,6 +9,6 @@ import jakarta.ws.rs.core.Response
 class JacksonExceptionHandler : ExceptionMapper<MismatchedInputException> {
     override fun toResponse(exception: MismatchedInputException?) = Response
         .status(422)
-        .entity("422 UNPROCESSABLE_ENTITY")
+        .entity(exception?.message)
         .build()
 }
