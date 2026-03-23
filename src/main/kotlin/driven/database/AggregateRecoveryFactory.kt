@@ -2,6 +2,8 @@ package driven.database
 
 import application.domain.models.Status
 import application.domain.models.aggregate.Loan
+import driven.database.extension.models.aggregate.approvedLoan
+import driven.database.extension.models.aggregate.declinedLoan
 import driven.database.extension.models.aggregate.initializedLoan
 import driven.database.extension.models.aggregate.proposalsIssuedLoan
 import driven.database.extension.models.aggregate.requestedLoan
@@ -15,6 +17,8 @@ class AggregateRecoveryFactory {
                 Status.INITIALIZED -> initializedLoan(loan)
                 Status.AVAILABLE -> proposalsIssuedLoan(loan)
                 Status.REQUESTED -> requestedLoan(loan)
+                Status.APPROVED -> approvedLoan(loan)
+                Status.DECLINED -> declinedLoan(loan)
                 Status.ABANDONED -> TODO()
                 Status.COMPLETED -> TODO()
                 Status.CANCELED -> TODO()

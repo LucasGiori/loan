@@ -1,5 +1,7 @@
 package application.domain.models.aggregate
 
+import application.domain.events.LoanApprovedEvent
+import application.domain.events.LoanDeclinedEvent
 import application.domain.events.LoanInitializedEvent
 import application.domain.events.LoanProposalsIssuedEvent
 import application.domain.events.LoanRequestedEvent
@@ -25,10 +27,16 @@ sealed interface Loan: AggregateRoot {
             is InitializedLoan -> Status.INITIALIZED
             is ProposalsIssuedLoan -> Status.AVAILABLE
             is RequestedLoan -> Status.REQUESTED
+            is ApprovedLoan -> Status.APPROVED
+            is DeclinedLoan -> Status.DECLINED
             else -> throw RuntimeException("Event without mapped status")
         }
 
     fun issueProposals(): LoanProposalsIssuedEvent = throw IllegalStateTransitionException(status, Status.AVAILABLE)
 
     fun request(proposalId: ProposalId): LoanRequestedEvent = throw IllegalStateTransitionException(status, Status.REQUESTED)
+
+    fun approve(): LoanApprovedEvent = throw IllegalStateTransitionException(status, Status.APPROVED)
+
+    fun decline(): LoanDeclinedEvent = throw IllegalStateTransitionException(status, Status.DECLINED)
 }
