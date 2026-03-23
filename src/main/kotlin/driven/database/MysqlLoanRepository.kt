@@ -17,6 +17,7 @@ import driven.database.dml.Loan.Companion.FIND_BY_ID
 import driven.database.dml.Loan.Companion.FIND_BY_VERSION
 import driven.database.dml.Loan.Companion.INSERT_INITIAL_AGGREGATE
 import driven.database.dml.Loan.Companion.UPDATE_AGGREGATE
+import driven.database.dml.Loan.Companion.UPDATE_AGGREGATE_WITH_TERMS
 import driven.database.extension.events.status
 import driven.database.extension.requireRowCountGreaterThan
 import io.vertx.mysqlclient.MySQLPool
@@ -165,11 +166,13 @@ class MysqlLoanRepository @Inject constructor(
                 event.status.toString(),
                 event.version.value,
                 Json.encodeToString<Proposals>(event.proposals),
+                event.amount.value,
+                event.tax.value,
                 event.loanId.value.toString(),
                 event.version.previous().value
             )
 
-            connection.preparedQuery(UPDATE_AGGREGATE)
+            connection.preparedQuery(UPDATE_AGGREGATE_WITH_TERMS)
                 .execute(params)
                 .await()
                 .requireRowCountGreaterThan(threshold = 0)
